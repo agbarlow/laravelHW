@@ -7,16 +7,27 @@
 
     <div class="container">
         	<div class="meal-info">
-		<h2 class="meal-name"> {{ $meal->name }} </h2>
-
+		<h2 class="meal-name"> {{ $meal->name }} </h2> 
 		<span class="meal-time">
-			{{ $meal->created_at }}
+		<?php
+		$phpdate = strtotime( $meal->created_at );
+		$mysqldate = date( 'l, F jS, Y', $phpdate );
+		?>	
+			{{ $mysqldate }}
 		</span>
 
 		<br>
 
 		<span class="meal-data label label-pill label-primary">
-			0 kCal
+			<?php 
+			$kCal = 0;
+			
+			foreach ($meal->foods as $food) {
+			$kCal = ($food->protein * 4) + ($food->carbs * 4) + ($food->fat * 9) + $kCal;
+			}
+			?>
+			
+			{{ $kCal }} kCal
 		</span>
 			
 			
@@ -60,8 +71,11 @@
 
 	<h3>Foods</h3>
 	@foreach ($meal->foods as $food)
+	
 	<ul>
-	<p> {{ $food->name }}  {{ $food->protein }} / {{ $food->carbs }} / {{$food->fat}} (protein/carbs/fat)</p>
+	<p> {{ $food->name }} <span class="food-time pull-right"> {{ $food->protein }} / {{ $food->carbs }} / {{$food->fat}} (protein/carbs/fat)
+		</span>
+	</p>
 	</ul>
 	@endforeach
 	

@@ -10,8 +10,15 @@
      <li class ="list-group-item"  >
 
        <a href =  "/meals/{{$meal->id}}">
-        {{ $meal->name }}
+        {{ $meal->name }} 
        </a>
+       <span class="pull-right">
+       <?php
+		$phpdate = strtotime( $meal->created_at );
+		$mysqldate = date( 'g:ia \o\n l, F jS', $phpdate );
+		?>	
+			{{ $mysqldate }}
+		</span>
       </li>
    @endforeach
  </ul>
